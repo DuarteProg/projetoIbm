@@ -34,18 +34,16 @@ public class CandidatoRepository {
         return id;
     }
 
-
     public void marcarEntrevista(int codCandidato) {
         Optional<Candidato> candidato = candidatos.stream()
                 .filter(produto -> produto.getId() == codCandidato)
                 .findFirst();
+        if (!candidato.isPresent()) {
+            throw new ResourceNotFoundException("Candidato não encontrado");
+        }
         Candidato candidatoEncontrado = candidato.get();
         if (!candidatoEncontrado.getStatus().equals("Recebido")) {
             throw new ResourceBadRequestException("Candidato não está na fase de entrevista");
-        }
-
-        if (!candidato.isPresent()) {
-            throw new ResourceNotFoundException("Candidato não encontrado");
         }
 
         candidato.orElseThrow().setStatus("Qualificado");
@@ -80,6 +78,11 @@ public class CandidatoRepository {
 
         if (!candidato.isPresent()) {
             throw new ResourceNotFoundException("Candidato não encontrado");
+        }
+
+        Candidato candidatoEncontrado = candidato.get();
+        if (!candidatoEncontrado.getStatus().equals("Qualificado")) {
+            throw new ResourceBadRequestException("Candidato não está na fase de qualificados");
         }
 
         candidato.orElseThrow().setStatus("Aprovado");
