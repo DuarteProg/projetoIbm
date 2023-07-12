@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.ibm.projetoibm.model.Candidato;
+import com.ibm.projetoibm.model.exception.ResourceBadRequestException;
 import com.ibm.projetoibm.model.exception.ResourceConflictException;
 import com.ibm.projetoibm.model.exception.ResourceNotFoundException;
 
@@ -33,14 +34,20 @@ public class CandidatoRepository {
         return id;
     }
 
+
     public void marcarEntrevista(int codCandidato) {
         Optional<Candidato> candidato = candidatos.stream()
                 .filter(produto -> produto.getId() == codCandidato)
                 .findFirst();
+        Candidato candidatoEncontrado = candidato.get();
+        if (!candidatoEncontrado.getStatus().equals("Recebido")) {
+            throw new ResourceBadRequestException("Candidato não está na fase de entrevista");
+        }
 
         if (!candidato.isPresent()) {
             throw new ResourceNotFoundException("Candidato não encontrado");
         }
+
         candidato.orElseThrow().setStatus("Qualificado");
     }
 
