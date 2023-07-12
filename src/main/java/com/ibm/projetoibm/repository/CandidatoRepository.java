@@ -1,7 +1,9 @@
 package com.ibm.projetoibm.repository;
 
 import java.util.ArrayList;
+
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -55,7 +57,7 @@ public class CandidatoRepository {
     }
 
     public String verificarStatusCandidato(int codCandidato) {
-       
+
         Optional<Candidato> candidato = candidatos.stream()
                 .filter(produto -> produto.getId() == codCandidato)
                 .findFirst();
@@ -64,28 +66,26 @@ public class CandidatoRepository {
     }
 
     public void aprovarCandidato(int codCandidato) {
-        
+
         Optional<Candidato> candidato = candidatos.stream()
                 .filter(produto -> produto.getId() == codCandidato)
                 .findFirst();
 
-                if (!candidato.isPresent()) {
+        if (!candidato.isPresent()) {
             throw new ResourceNotFoundException("Candidato não encontrado");
         }
-
 
         candidato.orElseThrow().setStatus("Aprovado");
     }
 
-    public List<String> obterAprovados() {
+    public List<Candidato> obterAprovados() {
 
-        List<String> candidatosAprovados = new ArrayList<>();
+        List<Candidato> candidatosAprovados = new ArrayList<>();
         for (Candidato candidato : candidatos) {
             if (candidato.getStatus().equals("Aprovado")) {
-                candidatosAprovados.add(candidato.getNome());
+                candidatosAprovados.add(candidato);
             }
         }
         return candidatosAprovados;
     }
-
 }

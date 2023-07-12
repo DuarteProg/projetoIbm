@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ibm.projetoibm.model.Candidato;
 import com.ibm.projetoibm.repository.CandidatoRepository;
 
 @Service
@@ -33,7 +34,7 @@ public class CandidatoService {
         candidatoRepository.aprovarCandidato(codCandidato);
     }
 
-    public List<String> obterAprovados() {
+    public List<Candidato> obterAprovados() {
         return candidatoRepository.obterAprovados();
     }
 }

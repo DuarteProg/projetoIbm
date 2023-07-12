@@ -20,11 +20,6 @@ public class Candidato {
     }
     // #endregion
 
-    @Override
-    public String toString() {
-        return "Id" + id + "Nome" + nome + "Status" + status;
-    }
-
     // #region Getters e Setters
     public Integer getId() {
         return id;
@@ -50,5 +45,10 @@ public class Candidato {
         this.status = status;
     }
     // #endregion
+
+    @Override
+    public String toString() {
+        return "Id" + id + "Nome" + nome + "Status" + status;
+    }
 
 }

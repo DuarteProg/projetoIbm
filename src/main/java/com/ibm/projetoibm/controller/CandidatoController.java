@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.projetoibm.model.Candidato;
+import com.ibm.projetoibm.model.DTO.AprovadosDTO;
 import com.ibm.projetoibm.services.CandidatoService;
 import com.ibm.projetoibm.shared.CandidatoDTO;
 
@@ -21,8 +23,8 @@ public class CandidatoController {
     private CandidatoService candidatoService;
 
     @PostMapping("/start")
-    public int iniciarProcesso(@RequestBody String nome) {
-        return candidatoService.iniciarProcesso(nome);
+    public int iniciarProcesso(@RequestBody AprovadosDTO nome) {
+        return candidatoService.iniciarProcesso(nome.nome());
     }
 
     @PostMapping("/schedule")
@@ -49,8 +51,9 @@ public class CandidatoController {
     }
 
     @GetMapping("/approved")
-    public List<String> obterAprovados() {
-        return candidatoService.obterAprovados();
+    public List<Candidato> obterAprovados() {
+        List<Candidato> listaAprovados = candidatoService.obterAprovados();
+        return listaAprovados;
     }
 
 }
